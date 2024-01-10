@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        position: relative;
+        background-color: #fff;
+        border-radius: 20px;
+        height: 380px;
+        width: 296px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .card .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        position: relative;
+        z-index: 100;
+      }
+
+      .card #weathericon i {
+        font-size: 40px;
+        object-fit: contain;
+        margin: 6px;
+        border-radius: 50%;
+      }
+      .box1 {
+        position: absolute;
+        width: 100%;
+        height: 25%;
+        border-radius: 20px 20px 0 0;
+        background: linear-gradient(
+          106.32deg,
+          #fa6922 14.23%,
+          rgba(255, 25, 25, 0) 139.97%
+        );
+      }
+
+      .card .name-profession {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .card .info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5px;
+      }
+
+      .card .info i {
+        font-size: 25px;
+        margin: 0 2px;
+        color: #fa6922;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="swiper-slide card">
+      <div class="box1"></div>
+      <div class="card-content">
+        <div id="weathericon">
+          <i class="fa-solid fa-sun" style="color: #eccc68"></i>
+        </div>
+
+        <div class="info">
+          <h2 class="location">
+            <i class="fa-solid fa-street-view" style="color: #eccc68"></i>
+            {%location%},{%country%}
+            <!--Value to be added here-->
+          </h2>
+          <p id="date">WED | OCT 23 | 10:49 AM</p>
+          <h1 class="temp">{%tempval%} °F</h1>
+          <h4 class="tempmin-max">Min {%tempmin%} °F | Max {%tempmax%} °F</h4>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const curDate = document.getElementById("date");
+      let weatehricon = document.getElementById("weathericon");
+      const temStatus = "{%status%}";
+      if (temStatus == "Sunny") {
+        weatehricon.innerHTML =
+          "<i class='fas fa-sun' style='color: #eccc68'> </i>";
+      } else if (temStatus == "Clouds") {
+        weatehricon.innerHTML =
+          "<i class='fas fa-cloud' style='color: #eccc68'> </i>";
+      } else if (temStatus == "Rainy") {
+        weatehricon.innerHTML =
+          "<i class='fas fa-rain' style='color: #eccc68'> </i>";
+      } else {
+        weatehricon.innerHTML =
+          "<i class='fas fa-sun' style='color: #eccc68'> </i>";
+      }
+
+      const getCurrentDay = () => {
+        const weekday = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+        let cDay = new Date();
+        let day = weekday[cDay.getDay()];
+        return day;
+      };
+
+      const getCurrentTime = () => {
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "July",
+          "Aug",
+          "Sept",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        let cTime = new Date();
+        let month = months[cTime.getMonth()];
+        let date = cTime.getDate();
+       
+        let hours = cTime.getHours();
+        let mins = cTime.getMinutes();
+        let period = "AM";
+        if (hours > 11) {
+          period = "PM";
+          if (hours > 12) hours -= 12;
+        }
+        if (mins < 10) {
+          mins = "0" + mins;
+        }
+
+        return `${month} ${date} | ${hours}:${mins} ${period}`;
+      };
+
+      curDate.textContent = getCurrentDay() + " | " + getCurrentTime();
+    </script>
+  </body>
+</html>
